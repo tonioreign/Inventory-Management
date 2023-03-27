@@ -79,9 +79,6 @@ public class MenuController {
     public void onDeleteProduct(ActionEvent e){
     }
 
-    public void onExit(ActionEvent e) {
-        System.out.println("Exit");
-    }
 
     public void cancelBtn(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
@@ -89,5 +86,9 @@ public class MenuController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void exitBtn(ActionEvent e){
+        stage.close();
     }
 }
