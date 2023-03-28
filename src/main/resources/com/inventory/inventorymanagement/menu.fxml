@@ -37,7 +37,7 @@
       <Button fx:id="addProduct" layoutX="709.0" layoutY="315.0" mnemonicParsing="false" onAction="#onAddProduct" text="Add" />
       <Button fx:id="modProduct" layoutX="756.0" layoutY="315.0" mnemonicParsing="false" onAction="#onModProduct" text="Modify" />
       <Button fx:id="deleteProduct" layoutX="825.0" layoutY="315.0" mnemonicParsing="false" onAction="#onDeleteProduct" text="Delete" />
-      <TextField fx:id="searchPart" layoutX="278.0" layoutY="68.0" prefHeight="27.0" prefWidth="173.0" promptText="Search by Part ID or Name" />
+      <TextField fx:id="searchPart" layoutX="278.0" layoutY="68.0" onAction="#onSearch" prefHeight="27.0" prefWidth="173.0" promptText="Search by Part ID or Name" />
       <TextField fx:id="searchProduct" layoutX="693.0" layoutY="68.0" prefHeight="27.0" prefWidth="185.0" promptText="Search by Product ID or Name" />
       <Button fx:id="exit" layoutX="868.0" layoutY="362.0" mnemonicParsing="false" onAction="#exitBtn" text="Exit" />
       <Label layoutX="57.0" layoutY="73.0" text="Parts">

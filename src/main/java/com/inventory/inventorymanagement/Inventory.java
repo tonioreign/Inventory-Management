@@ -19,12 +19,14 @@ public class Inventory {
     }
 
     public static Part lookupPart(int partId){
-        int idx = 0;
-        for(Part part : allParts){
-            if(part.getId() == partId) break;
-            idx++;
+        for(int i = 0; i < allParts.size(); i++){
+            Part newPart = allParts.get(i);
+
+            if(newPart.getId() == partId){
+                return newPart;
+            }
         }
-        return allParts.get(idx);
+        return null;
     }
 
     public static Product lookupProduct(int productId){

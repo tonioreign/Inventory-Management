@@ -1,5 +1,7 @@
 package com.inventory.inventorymanagement;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,21 +82,24 @@ public class MenuController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        // creating a part & product to testt the tableview
-        Product prod = new Product(1, "Brake", 19.99, 10, 1, 5);
-        Part part = new Outsourced(2, "Brake", 19.99, 10, 1, 5, "TonioReign");
-        Inventory.addProduct(prod);
-        Inventory.addPart(part);
-        // setting each table on the menu screen with
-        // its individual category.
+        /*
+            Ran into an error here stating that this.allParts table was null when the table was filled. Learned that I can't
+            have the same controller referenced to multiple fxml files. RUNTIME ERROR
+        */
+        Inventory.addPart(new Outsourced(1, "Brake", 9.99, 2, 0, 5, "Reign"));
+        Inventory.addPart(new Outsourced(2, "Latter", 9.99, 2, 0, 5, "Reign"));
+        Inventory.addPart(new Outsourced(3, "Shovel", 9.99, 2, 0, 5, "Reign"));
+        Inventory.addPart(new Outsourced(4, "Brakes", 9.99, 2, 0, 5, "Reign"));
+        Inventory.addPart(new Outsourced(5, "ScrewDriver", 9.99, 2, 0, 5, "Reign"));
+        Inventory.addPart(new Outsourced(6, "Latex", 9.99, 2, 0, 5, "Reign"));
+        // setting each table on the menu screen with its individual category.
         partTable.setItems(Inventory.getAllParts());
         productTable.setItems((Inventory.getAllProducts()));
-
         // setting the parts columns with their respective attributes.
-        partIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        partIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
         partInvLvlCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
         partCostCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("price"));
@@ -120,7 +125,11 @@ public class MenuController implements Initializable {
         stage.show();
     }
     public void onDeletePart(ActionEvent e){
-
+        try {
+            Inventory.deletePart(partTable.getSelectionModel().getSelectedItem()); // deletes the selected part
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void onAddProduct(ActionEvent e)throws IOException{
@@ -139,6 +148,35 @@ public class MenuController implements Initializable {
         stage.show();
     }
     public void onDeleteProduct(ActionEvent e){
+        try {
+            Inventory.deleteProduct(productTable.getSelectionModel().getSelectedItem()); // deletes the selected product
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void onSearch(ActionEvent e){
+        ObservableList<Part> idPartList = FXCollections.observableArrayList();
+        ObservableList<Product> idProdList = FXCollections.observableArrayList();
+
+        String partStr = searchPart.getText(); // getting part name from search fields
+        String prodStr = searchProduct.getText();
+
+        // searching for the string name first
+        partTable.setItems(Inventory.lookupPart(partStr));
+        productTable.setItems(Inventory.lookupProduct(prodStr));
+        // try catch block to catch any errors if the string cannot be parsed into an integer
+        try{
+            Integer partId = Integer.parseInt(partStr);
+            idPartList.add(Inventory.lookupPart(partId));
+            partTable.setItems(idPartList);
+
+            Integer prodId = Integer.parseInt(prodStr);
+            idProdList.add(Inventory.lookupProduct(prodId));
+            productTable.setItems(idProdList);
+        }catch(NumberFormatException i){
+            // ignore
+        }
     }
 
 
