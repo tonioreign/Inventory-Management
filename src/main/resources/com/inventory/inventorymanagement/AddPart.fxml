@@ -35,14 +35,14 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="64.0" layoutY="294.0" text="Machine ID">
+      <Label fx:id="machineIdField" layoutX="64.0" layoutY="294.0" text="Machine ID">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <RadioButton fx:id="addPartOutSourced" layoutX="269.0" layoutY="42.0" mnemonicParsing="false" text="Outsourced" />
-      <RadioButton fx:id="addPartInHouse" layoutX="152.0" layoutY="42.0" mnemonicParsing="false" text="In-House" />
-      <TextField fx:id="addPartID" layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="132.0" />
+      <RadioButton fx:id="addPartOutSourced" layoutX="269.0" layoutY="42.0" mnemonicParsing="false" onAction="#onOutsourced" text="Outsourced" />
+      <RadioButton fx:id="addPartInHouse" layoutX="152.0" layoutY="42.0" mnemonicParsing="false" onAction="#onInHouse" text="In-House" />
+      <TextField fx:id="addPartID" editable="false" layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="132.0" text="0" />
       <TextField fx:id="addPartName" layoutX="143.0" layoutY="152.0" prefHeight="27.0" prefWidth="132.0" />
       <TextField fx:id="addPartInv" layoutX="143.0" layoutY="186.0" prefHeight="27.0" prefWidth="132.0" />
       <TextField fx:id="addPartCost" layoutX="143.0" layoutY="220.0" prefHeight="27.0" prefWidth="132.0" />
@@ -54,7 +54,7 @@
          </font>
       </Label>
       <TextField fx:id="addPartMin" layoutX="370.0" layoutY="255.0" prefHeight="27.0" prefWidth="132.0" />
-      <Button fx:id="addPartSave" layoutX="370.0" layoutY="343.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="addPartSave" layoutX="370.0" layoutY="343.0" mnemonicParsing="false" onAction="#onSave" text="Save" />
       <Button fx:id="cancelBtnPart" layoutX="447.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancelBtn" text="Cancel" />
    </children>
 </AnchorPane>

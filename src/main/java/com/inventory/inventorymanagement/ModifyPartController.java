@@ -8,16 +8,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AddPartController implements Initializable {
+public class ModifyPartController implements Initializable {
 
     private Stage stage;
     private Scene scene;
@@ -119,5 +117,26 @@ public class AddPartController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addPartID.setText(total.toString());
         addPartInHouse.setSelected(true);
+
+        selectedPart = MenuController.getModifyPart();
+
+        if (selectedPart instanceof InHouse) {
+            addPartInHouse.setSelected(true);
+            machineIdField.setText("Machine ID");
+            addPartMachine.setText(String.valueOf(((InHouse) selectedPart).getMachineId()));
+        }
+
+        if (selectedPart instanceof Outsourced){
+            addPartOutSourced.setSelected(true);
+            machineIdField.setText("Company Name");
+            machineIdField.setText(((Outsourced) selectedPart).getCompanyName());
+        }
+
+        addPartID.setText(String.valueOf(selectedPart.getId()));
+        addPartName.setText(selectedPart.getName());
+        addPartInv.setText(String.valueOf(selectedPart.getStock()));
+        addPartCost.setText(String.valueOf(selectedPart.getPrice()));
+        addPartMax.setText(String.valueOf(selectedPart.getMax()));
+        addPartMin.setText(String.valueOf(selectedPart.getMin()));
     }
 }

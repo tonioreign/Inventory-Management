@@ -79,6 +79,10 @@ public class MenuController implements Initializable {
     @FXML
     private Button exit;
 
+    private static Part modifyPart;
+    private static Product modifyProduct;
+
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -89,12 +93,7 @@ public class MenuController implements Initializable {
             Ran into an error here stating that this.allParts table was null when the table was filled. Learned that I can't
             have the same controller referenced to multiple fxml files. RUNTIME ERROR
         */
-        Inventory.addPart(new Outsourced(1, "Brake", 9.99, 2, 0, 5, "Reign"));
-        Inventory.addPart(new Outsourced(2, "Latter", 9.99, 2, 0, 5, "Reign"));
-        Inventory.addPart(new Outsourced(3, "Shovel", 9.99, 2, 0, 5, "Reign"));
-        Inventory.addPart(new Outsourced(4, "Brakes", 9.99, 2, 0, 5, "Reign"));
-        Inventory.addPart(new Outsourced(5, "ScrewDriver", 9.99, 2, 0, 5, "Reign"));
-        Inventory.addPart(new Outsourced(6, "Latex", 9.99, 2, 0, 5, "Reign"));
+
         // setting each table on the menu screen with its individual category.
         partTable.setItems(Inventory.getAllParts());
         productTable.setItems((Inventory.getAllProducts()));
@@ -118,6 +117,8 @@ public class MenuController implements Initializable {
     }
 
     public void onModPart(ActionEvent e)throws IOException{
+        modifyPart = partTable.getSelectionModel().getSelectedItem();
+
         Parent root = FXMLLoader.load(getClass().getResource("ModifyPart.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -132,7 +133,16 @@ public class MenuController implements Initializable {
         }
     }
 
+    @FXML
+    public static Part getModifyPart() {
+        return modifyPart;
+    }
+
+    public static Product getModifyProduct() {
+        return modifyProduct;
+    }
     public void onAddProduct(ActionEvent e)throws IOException{
+
         Parent root = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -141,6 +151,9 @@ public class MenuController implements Initializable {
     }
 
     public void onModProduct(ActionEvent e)throws IOException{
+
+        modifyProduct = productTable.getSelectionModel().getSelectedItem();
+
         Parent root = FXMLLoader.load(getClass().getResource("ModifyProduct.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);

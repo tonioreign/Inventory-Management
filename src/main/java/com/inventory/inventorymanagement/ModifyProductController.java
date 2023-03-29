@@ -16,8 +16,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AddProductController implements Initializable {
-
+public class ModifyProductController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -74,6 +73,8 @@ public class AddProductController implements Initializable {
 
     @FXML
     private Button cancelBtnProd;
+
+    private Product selectedProduct;
     private Button prodSave;
 
     public void onSave(ActionEvent e) throws IOException {
@@ -113,6 +114,16 @@ public class AddProductController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        selectedProduct = MenuController.getModifyProduct();
+
+
+        addProdID.setText(String.valueOf(selectedProduct.getId()));
+        addProdName.setText(selectedProduct.getName());
+        addProdInv.setText(String.valueOf(selectedProduct.getStock()));
+        addProdCost.setText(String.valueOf(selectedProduct.getPrice()));
+        addProdMax.setText(String.valueOf(selectedProduct.getMax()));
+        addProdMin.setText(String.valueOf(selectedProduct.getMin()));
+
         addProdID.setText(total.toString());
         partTable.setItems(Inventory.getAllParts());
         productTable.setItems((Inventory.getAllProducts()));
@@ -126,6 +137,7 @@ public class AddProductController implements Initializable {
         productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         productInvLvlCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
         productCostCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("price"));
+
+
     }
 }
-

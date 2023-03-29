@@ -41,19 +41,19 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <TextField layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="181.0" />
-        <TextField layoutX="143.0" layoutY="152.0" prefHeight="27.0" prefWidth="181.0" />
-        <TextField layoutX="143.0" layoutY="186.0" prefHeight="27.0" prefWidth="108.0" />
-        <TextField layoutX="143.0" layoutY="220.0" prefHeight="27.0" prefWidth="108.0" />
-        <TextField layoutX="143.0" layoutY="255.0" prefHeight="27.0" prefWidth="108.0" />
-        <TextField layoutX="143.0" layoutY="290.0" prefHeight="27.0" prefWidth="108.0" />
+        <TextField fx:id="addProdID" editable="false" layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="181.0" text="0" />
+        <TextField fx:id="addProdName" layoutX="143.0" layoutY="152.0" prefHeight="27.0" prefWidth="181.0" />
+        <TextField fx:id="addProdInv" layoutX="143.0" layoutY="186.0" prefHeight="27.0" prefWidth="108.0" />
+        <TextField fx:id="addProdCost" layoutX="143.0" layoutY="220.0" prefHeight="27.0" prefWidth="108.0" />
+        <TextField fx:id="addProdMax" layoutX="143.0" layoutY="255.0" prefHeight="27.0" prefWidth="108.0" />
+        <TextField fx:id="addProdMachineID" layoutX="143.0" layoutY="290.0" prefHeight="27.0" prefWidth="108.0" />
       <Label layoutX="270.0" layoutY="259.0" text="Min">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="348.0" layoutY="255.0" prefHeight="27.0" prefWidth="108.0" />
-      <TableView layoutX="514.0" layoutY="74.0" prefHeight="200.0" prefWidth="343.0">
+      <TextField fx:id="addProdMin" layoutX="348.0" layoutY="255.0" prefHeight="27.0" prefWidth="108.0" />
+      <TableView fx:id="partTable" layoutX="514.0" layoutY="74.0" prefHeight="200.0" prefWidth="343.0">
         <columns>
             <TableColumn fx:id="partIDCol" prefWidth="75.0" text="Part ID" />
             <TableColumn fx:id="partNameCol" prefWidth="75.0" text="Part Name" />
@@ -62,7 +62,7 @@
         </columns>
       </TableView>
       <TextField layoutX="696.0" layoutY="37.0" />
-      <TableView layoutX="514.0" layoutY="317.0" prefHeight="200.0" prefWidth="343.0">
+      <TableView fx:id="productTable" layoutX="514.0" layoutY="317.0" prefHeight="200.0" prefWidth="343.0">
          <columns>
              <TableColumn fx:id="productIDCol" prefWidth="75.0" text="Product ID" />
              <TableColumn fx:id="productNameCol" prefWidth="95.0" text="Product Name" />
@@ -72,6 +72,6 @@
       </TableView>
       <Button fx:id="cancelBtnProd" layoutX="788.0" layoutY="573.0" mnemonicParsing="false" onAction="#cancelBtn" text="Cancel" />
       <Button layoutX="688.0" layoutY="529.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" text="Remove Associated Part" />
-      <Button layoutX="688.0" layoutY="573.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="57.0" text="Save" />
+      <Button fx:id="prodSave" layoutX="688.0" layoutY="573.0" mnemonicParsing="false" onAction="#onSave" prefHeight="27.0" prefWidth="57.0" text="Save" />
     </children>
 </AnchorPane>
