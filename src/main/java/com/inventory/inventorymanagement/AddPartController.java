@@ -189,6 +189,6 @@ public class AddPartController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Integer newTotal = total + 1;
         addPartID.setText(newTotal.toString());
-        addPartInHouse.setSelected(true);
+        addPartOutSourced.setSelected(true);
     }
 }

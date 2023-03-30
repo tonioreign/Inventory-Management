@@ -24,6 +24,11 @@ public class InventoryManagement extends Application {
     }
 
     public static void main(String[] args) {
+
+        Inventory.addPart(new Outsourced(1, "brakes", 9.99, 1, 1, 10, "Reign"));
+        Inventory.addPart(new InHouse(1, "tires", 9.99, 1, 1, 10, 304));
+        Inventory.addProduct(new Product(1,"bike", 99.99, 1, 1, 5));
+        Inventory.addProduct(new Product(1,"go-carts", 199.99, 1, 1, 5));
         launch();
     }
 }

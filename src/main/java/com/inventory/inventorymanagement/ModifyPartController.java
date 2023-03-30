@@ -191,7 +191,6 @@ public class ModifyPartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addPartID.setText(total.toString());
-        addPartInHouse.setSelected(true);
 
         selectedPart = MenuController.getModifyPart();
         // checking if it's an instance of InHouse
@@ -203,12 +202,12 @@ public class ModifyPartController implements Initializable {
         // checking if it's an instance of Outsourced
         if (selectedPart instanceof Outsourced){
             addPartOutSourced.setSelected(true);
-            machineIdField.setText("Company Name");
-            machineIdField.setText(((Outsourced) selectedPart).getCompanyName());
+            machineIdField.setText("Company");
+            addPartMachine.setText(String.valueOf(((Outsourced) selectedPart).getCompanyName()));
         }
         // populating form data selected part data
         addPartID.setText(String.valueOf(selectedPart.getId()));
-        addPartName.setText(selectedPart.getName());
+        addPartName.setText(String.valueOf(selectedPart.getName()));
         addPartInv.setText(String.valueOf(selectedPart.getStock()));
         addPartCost.setText(String.valueOf(selectedPart.getPrice()));
         addPartMax.setText(String.valueOf(selectedPart.getMax()));

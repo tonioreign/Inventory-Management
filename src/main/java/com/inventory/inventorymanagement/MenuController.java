@@ -209,33 +209,66 @@ public class MenuController implements Initializable {
     public void onSearchPart(ActionEvent e){
         ObservableList<Part> idPartList = FXCollections.observableArrayList();
         String partStr = searchPart.getText(); // getting part name from search fields
-        // searching for the string name first
-        partTable.setItems(Inventory.lookupPart(partStr));
-        // try catch block to catch any errors if the string cannot be parsed into an integer
-        try{
-            Integer partId = Integer.parseInt(partStr);
-            idPartList.add(Inventory.lookupPart(partId));
-            partTable.setItems(idPartList);
 
+        try{
+            // searching for the string name first
+            idPartList = Inventory.lookupPart(partStr);
+            partTable.setItems(idPartList);
+            Integer partId = Integer.parseInt(partStr);
+            Part part = Inventory.lookupPart(partId);
+            // try catch block to catch any errors if the string cannot be parsed into an integer
+            if(part != null) {    // partial fix - checking if null then add to list - new error. not populating all parts
+                idPartList.add(part);
+                partTable.setItems(idPartList);
+            }
         }catch(NumberFormatException i){
             // ignore
         }
+
+        if(idPartList.size() == 0){
+            displayAlert(1);
+        }
+
+        if(partStr.isEmpty() || partStr.isBlank())
+        {
+            partTable.setItems(Inventory.getAllParts());
+        }
+        /* running into an error - display alert shows to often when populated or entering an invalid part
+        * WIERD FIX - assigned idPartList to the results of the string lookup and checked for null variables
+        * */
     }
     // search function above "Product Table"
     @FXML
     public void onSearchProd(ActionEvent e){
         ObservableList<Product> idProdList = FXCollections.observableArrayList();
-        String prodStr = searchProduct.getText();
-        // searching for the string name first
-        productTable.setItems(Inventory.lookupProduct(prodStr));
-        // try catch block to catch any errors if the string cannot be parsed into an integer
+        String prodStr = searchProduct.getText(); // getting part name from search fields
+
         try{
-            Integer prodId = Integer.parseInt(prodStr);
-            idProdList.add(Inventory.lookupProduct(prodId));
+            // searching for the string name first
+            idProdList = Inventory.lookupProduct(prodStr);
             productTable.setItems(idProdList);
+            Integer prodId = Integer.parseInt(prodStr);
+            Product prod = Inventory.lookupProduct(prodId);
+            // try catch block to catch any errors if the string cannot be parsed into an integer
+            if(prod != null) {    // partial fix - checking if null then add to list - new error. not populating all parts
+                idProdList.add(prod);
+                productTable.setItems(idProdList);
+            }
         }catch(NumberFormatException i){
             // ignore
         }
+
+        if(idProdList.size() == 0){
+            displayAlert(1);
+        }
+
+        if(prodStr.isEmpty() || prodStr.isBlank())
+        {
+            partTable.setItems(Inventory.getAllParts());
+        }
+        /* running into an error - display alert shows to often when populated or entering an invalid part
+         * WIERD FIX - assigned idPartList to the results of the string lookup and checked for null variables
+         * */
     }
 
     // cancel function - return back to menu
