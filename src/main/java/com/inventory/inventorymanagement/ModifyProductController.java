@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 public class ModifyProductController implements Initializable {
     // setting stage
     private Stage stage;
-    // setting scence
+    // setting scene
     private Scene scene;
     // parent root variable
     private Parent root;
@@ -82,6 +82,9 @@ public class ModifyProductController implements Initializable {
     // part table
     @FXML
     private TableView<Part> partTable;
+    // part search text field
+    @FXML
+    private TextField prodSearch;
     // cancel button
     @FXML
     private Button cancelBtnProd;
@@ -179,7 +182,7 @@ public class ModifyProductController implements Initializable {
     @FXML
     public void onSearch(ActionEvent e){
         ObservableList<Part> idPartList = FXCollections.observableArrayList();
-        String partStr = partSearch.getText(); // getting part name from search fields
+        String partStr = prodSearch.getText(); // getting part name from search fields
 
         // searching for the string name first
         partTable.setItems(Inventory.lookupPart(partStr));

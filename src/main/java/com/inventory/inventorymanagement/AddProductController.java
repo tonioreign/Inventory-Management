@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,65 +23,76 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
-
+    // setting stage
     private Stage stage;
+    // setting scene
     private Scene scene;
+    // parent root variable
     private Parent root;
+    // product list size
     private Integer total = Inventory.getAllProducts().size();
+    // associated part list
     private ObservableList<Part> assocParts = FXCollections.observableArrayList();
+    // product id text
     @FXML
     private TextField addProdID;
-
+    // product name text
     @FXML
     private TextField addProdName;
-
+    // product inventory text
     @FXML
     private TextField addProdInv;
-
+    // product cost text
     @FXML
     private TextField addProdCost;
-
+    // product max text
     @FXML
     private TextField addProdMax;
-
+    // product machine ID text
     @FXML
     private TextField addProdMachineID;
-
+    // product min text
     @FXML
     private TextField addProdMin;
-
+    // part ID col
     @FXML
     private TableColumn<Part, Integer> partIDCol;
-
+    // part name col
     @FXML
     private TableColumn<Part, String> partNameCol;
-
+    // part inventory col
     @FXML
     private TableColumn<Part, Integer> partInvLvlCol;
-
+    // part cost col
     @FXML
     private TableColumn<Part, Integer> partCostCol;
-
+    // assoc cost col
     @FXML
     private TableColumn<Product, Integer> assocIDCost;
-
+    // assoc name col
     @FXML
     private TableColumn<Product, String> assocPartName;
-
+    // assoc inventory col
     @FXML
     private TableColumn<Product, Integer> assocPartInv;
-
+    // assoc cost col
     @FXML
     private TableColumn<Product, Integer> assocPartCost;
+    // assoc table
     @FXML
     private TableView<Part> assocTable;
-
+    // part table
     @FXML
     private TableView<Part> partTable;
+    // part search text field
+    @FXML
+    private TextField prodSearch;
 
     @FXML TextField partSearch;
+    // cancel button
     @FXML
     private Button cancelBtnProd;
+    // save button
     private Button prodSave;
 
     // takes the gathered input field from user - creates new product if no errors occurred
@@ -120,7 +132,7 @@ public class AddProductController implements Initializable {
     @FXML
     public void onSearch(ActionEvent e){
         ObservableList<Part> idPartList = FXCollections.observableArrayList();
-        String partStr = partSearch.getText(); // getting part name from search fields
+        String partStr = prodSearch.getText(); // getting part name from search fields
 
         // searching for the string name first
         partTable.setItems(Inventory.lookupPart(partStr));
@@ -166,7 +178,7 @@ public class AddProductController implements Initializable {
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 assocParts.remove(selectedPart);
-                partTable.setItems(assocParts);
+                assocTable.setItems(assocParts);
             }
         }
     }
