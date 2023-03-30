@@ -196,7 +196,7 @@ public class AddProductController implements Initializable {
     @FXML
     void removeButtonAction(ActionEvent event) {
 
-        Part selectedPart = partTable.getSelectionModel().getSelectedItem();
+        Part selectedPart = assocTable.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
             displayAlert(5); // throws an alert if the selected part is null
