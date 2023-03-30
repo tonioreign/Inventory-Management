@@ -24,16 +24,31 @@ public class InventoryManagement extends Application {
     }
 
     public static void main(String[] args) {
+        /** CREATING PARTS*/
+        Part brakes = new Outsourced(1, "brakes", 9.99, 1, 1, 10, "Reign");
+        Part tires = new InHouse(2, "tires", 9.99, 1, 1, 10, 304);
 
-        Inventory.addPart(new Outsourced(1, "brakes", 9.99, 1, 1, 10, "Reign"));
-        Inventory.addPart(new InHouse(1, "tires", 9.99, 1, 1, 10, 304));
-        Inventory.addProduct(new Product(1,"bike", 99.99, 1, 1, 5));
-        Inventory.addProduct(new Product(1,"go-carts", 199.99, 1, 1, 5));
+        /** ADDING PARTS INTO INVENTORY*/
+        Inventory.addPart(brakes);
+        Inventory.addPart(tires);
+
+        /** CREATING PRODUCTS*/
+        Product bikes = new Product(1,"bike", 99.99, 1, 1, 5);
+        Product goCarts = new Product(2,"go-carts", 199.99, 1, 1, 5);
+
+        /** ADDING ASSOCIATED PARTS*/
+        goCarts.addAssociatedPart(tires);
+
+        /** ADDING PRODUCTS INTO INVENTORY*/
+        Inventory.addProduct(bikes);
+        Inventory.addProduct(goCarts);
+
+
         launch();
 
 
-        /*
-        * Can't figure out how to refactor the code - everytime I try multiple ways that would work with a non maven build
+        /**
+        * "RUNTIME ERROR" Can't figure out how to refactor the code - everytime I try multiple ways that would work with a non maven build
         * I get runtime errors "Location required" won't let me move files into new created folders to make it more organized
         *
         * FIXXXX - deleted "com" folder and moved fxml files into a specific folder then rerouted all controllers and models

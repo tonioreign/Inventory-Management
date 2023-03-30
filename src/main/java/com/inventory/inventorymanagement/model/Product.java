@@ -3,22 +3,35 @@ package com.inventory.inventorymanagement.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Models a product with associated parts
+ *
+ * @author Antonio
+ * */
 public class Product{
-    // create associated part list
+    /** a list for all associated parts to the product*/
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
-    // create product id
+    /** the id for product*/
     private int id;
-    // create product name
+    /** the name for product*/
     private String name;
-    // create product price
+    /** the price for product*/
     private double price;
-    // create product stock
+    /** the inventory level for product*/
     private int stock;
-    // create product min
+    /** the min for product*/
     private int min;
-    //  create product max
+    /** the max for product*/
     private int max;
-    // constructor
+    /** Constructor for a new instance of a Product object
+     *
+     * @param id the ID for product
+     * @param name  the name for product
+     * @param price the price for product
+     * @param stock the inventory level for product
+     * @param min the min for part
+     * @param max the maximum for product
+     * */
     public Product(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         this.name = name;
@@ -27,64 +40,68 @@ public class Product{
         this.min = min;
         this.max = max;
     }
-    // setting id
+    /** setter for id*/
     public void setId(int id){
         this.id = id;
     }
-    // getting id
+    /** getter for id*/
     public int getId(){
         return id;
     }
-    // setting name
+    /** setter for name*/
     public void setName(String name){
         this.name = name;
     }
-    // getting name
+    /** getter for name*/
     public String getName(){
         return name;
     }
-    // setting price
+    /** setter for price*/
     public void setPrice(double price){
         this.price = price;
     }
-    // getting price
+    /** getter for price*/
     public double getPrice(){
         return price;
     }
-    // setting stock
+    /** setter for stock*/
     public void setStock(int stock){
         this.stock = stock;
     }
-    // getting stock
+    /** getter for stock*/
     public int getStock(){
         return stock;
     }
-    // setting min
+    /** setter for min*/
     public void setMin(int min){
         this.min = min;
     }
-    // getting mind
+    /** getter for min*/
     public int getMin(){
         return min;
     }
-    // setting max
+    /** setter for max*/
     public void setMax(int max){
         this.max = max;
     }
-    // getting max
+    /** getter for max*/
     public int getMax(){
         return max;
     }
 
-    // getting associated parts
+    /** @return list of associated parts to product*/
     public ObservableList<Part> getAssociatedParts(){
         return associatedParts;
     }
-    // adding associated part
+    /** Adds a part to associated part list
+     * @param part the part to be added to associated product list*/
     public void addAssociatedPart(Part part){
         associatedParts.add(part);
     }
-    // delete associated part
+    /** Deletes an associated part to the product
+     *
+     * @param part the part to be deteled from associated part list
+     * @return a boolean indicating if part was removed from associated part list*/
     public boolean deleteAssociatedPart(Part part){
         if (associatedParts.contains(part)) {
             associatedParts.remove(part);
@@ -93,7 +110,7 @@ public class Product{
         else
             return false;
     }
-    // returning associated parts
+    /** @return associated parts to the product*/
     public ObservableList<Part> getAllAssociatedParts(){
         return associatedParts;
     }
