@@ -1,4 +1,4 @@
-package com.inventory.inventorymanagement;
+package com.inventory.inventorymanagement.model;
 
 public class InHouse extends Part {
     // InHouse machine ID

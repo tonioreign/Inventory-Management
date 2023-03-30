@@ -1,5 +1,8 @@
-package com.inventory.inventorymanagement;
+package com.inventory.inventorymanagement.controller;
 
+import com.inventory.inventorymanagement.model.Inventory;
+import com.inventory.inventorymanagement.model.Part;
+import com.inventory.inventorymanagement.model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -111,7 +114,7 @@ public class MenuController implements Initializable {
 
     // method loads up the part form - reused this code a lot to transition forms - could make a main method for it in the future
     public void onAddPart(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AddPart.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -122,7 +125,7 @@ public class MenuController implements Initializable {
     public void onModPart(ActionEvent e)throws IOException{
         modifyPart = partTable.getSelectionModel().getSelectedItem();
 
-        Parent root = FXMLLoader.load(getClass().getResource("ModifyPart.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/ModifyPart.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -160,7 +163,7 @@ public class MenuController implements Initializable {
     // opens add product form
     public void onAddProduct(ActionEvent e)throws IOException{
 
-        Parent root = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AddProduct.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -171,7 +174,7 @@ public class MenuController implements Initializable {
 
         modifyProduct = productTable.getSelectionModel().getSelectedItem();
 
-        Parent root = FXMLLoader.load(getClass().getResource("ModifyProduct.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/ModifyProduct.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -240,31 +243,31 @@ public class MenuController implements Initializable {
     // search function above "Product Table"
     @FXML
     public void onSearchProd(ActionEvent e){
-        ObservableList<Product> idProdList = FXCollections.observableArrayList();
+        ObservableList<Product> idList = FXCollections.observableArrayList();
         String prodStr = searchProduct.getText(); // getting part name from search fields
 
         try{
             // searching for the string name first
-            idProdList = Inventory.lookupProduct(prodStr);
-            productTable.setItems(idProdList);
+            idList = Inventory.lookupProduct(prodStr);
+            productTable.setItems(idList);
             Integer prodId = Integer.parseInt(prodStr);
             Product prod = Inventory.lookupProduct(prodId);
             // try catch block to catch any errors if the string cannot be parsed into an integer
             if(prod != null) {    // partial fix - checking if null then add to list - new error. not populating all parts
-                idProdList.add(prod);
-                productTable.setItems(idProdList);
+                idList.add(prod);
+                productTable.setItems(idList);
             }
         }catch(NumberFormatException i){
             // ignore
         }
 
-        if(idProdList.size() == 0){
-            displayAlert(1);
+        if(idList.size() == 0){
+            displayAlert(2);
         }
 
         if(prodStr.isEmpty() || prodStr.isBlank())
         {
-            partTable.setItems(Inventory.getAllParts());
+            productTable.setItems(Inventory.getAllProducts());
         }
         /* running into an error - display alert shows to often when populated or entering an invalid part
          * WIERD FIX - assigned idPartList to the results of the string lookup and checked for null variables
@@ -273,7 +276,7 @@ public class MenuController implements Initializable {
 
     // cancel function - return back to menu
     public void cancelBtn(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

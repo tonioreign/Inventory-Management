@@ -1,4 +1,4 @@
-package com.inventory.inventorymanagement;
+package com.inventory.inventorymanagement.model;
 
 public class Outsourced extends Part{
     // create company name

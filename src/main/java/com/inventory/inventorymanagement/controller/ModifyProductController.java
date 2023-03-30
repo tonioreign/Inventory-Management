@@ -1,9 +1,8 @@
-package com.inventory.inventorymanagement;
+package com.inventory.inventorymanagement.controller;
 
-import com.inventory.inventorymanagement.Inventory;
-import com.inventory.inventorymanagement.MenuController;
-import com.inventory.inventorymanagement.Part;
-import com.inventory.inventorymanagement.Product;
+import com.inventory.inventorymanagement.model.Inventory;
+import com.inventory.inventorymanagement.model.Part;
+import com.inventory.inventorymanagement.model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -122,32 +121,34 @@ public class ModifyProductController implements Initializable {
     // switches back to main form
     @FXML
     public void onSave(ActionEvent e) throws IOException {
-        Integer newID = total += 1;
-        String name = addProdName.getText();
-        Double cost = Double.parseDouble(addProdCost.getText());
-        Integer inventory = Integer.parseInt(addProdInv.getText());
-        Integer min = Integer.parseInt(addProdMin.getText());
-        Integer max = Integer.parseInt(addProdMax.getText());
 
-        // checking errors - setting modified data
-        if(name.isEmpty()){
-            displayAlert(5);
-        }
-        else if(min > max)
-        {
-            displayAlert(3);
-        }else if(inventory > max || inventory < min){
-            displayAlert(4);
-        }
-        else {
-            selectedProduct.setName(name);
-            selectedProduct.setPrice(cost);
-            selectedProduct.setMax(max);
-            selectedProduct.setMin(min);
-            selectedProduct.setStock(inventory);
+        try {
+            Integer newID = total += 1;
+            String name = addProdName.getText();
+            Double cost = Double.parseDouble(addProdCost.getText());
+            Integer inventory = Integer.parseInt(addProdInv.getText());
+            Integer min = Integer.parseInt(addProdMin.getText());
+            Integer max = Integer.parseInt(addProdMax.getText());
+
+            // checking errors - setting modified data
+            if (name.isEmpty()) {
+                displayAlert(5);
+            } else if (min > max) {
+                displayAlert(3);
+            } else if (inventory > max || inventory < min) {
+                displayAlert(4);
+            } else {
+                selectedProduct.setName(name);
+                selectedProduct.setPrice(cost);
+                selectedProduct.setMax(max);
+                selectedProduct.setMin(min);
+                selectedProduct.setStock(inventory);
+            }
+        }catch(Exception i){
+            displayAlert(1);
         }
         // returns to main menu
-        Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -232,7 +233,7 @@ public class ModifyProductController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         // if OK return back to main screen
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

@@ -1,4 +1,4 @@
-package com.inventory.inventorymanagement; /**
+package com.inventory.inventorymanagement.model; /**
 * Supplied class Part.java 
  */
 

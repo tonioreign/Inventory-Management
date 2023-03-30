@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="673.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.inventorymanagement.ModifyProductController">
+<AnchorPane prefHeight="673.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.inventorymanagement.controller.AddProductController">
     <children>
-        <Label layoutX="38.0" layoutY="42.0" text="Modify Product" />
+        <Label layoutX="38.0" layoutY="42.0" text="Add Product" />
         <Label layoutX="65.0" layoutY="122.0" text="ID">
             <font>
                 <Font size="14.0" />
@@ -41,7 +41,7 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="addProdID" editable="false" layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="181.0" text="0" />
+        <TextField fx:id="addProdID" editable="false" layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="181.0" />
         <TextField fx:id="addProdName" layoutX="143.0" layoutY="152.0" prefHeight="27.0" prefWidth="181.0" />
         <TextField fx:id="addProdInv" layoutX="143.0" layoutY="186.0" prefHeight="27.0" prefWidth="108.0" />
         <TextField fx:id="addProdCost" layoutX="143.0" layoutY="220.0" prefHeight="27.0" prefWidth="108.0" />
@@ -73,6 +73,6 @@
       <Button fx:id="cancelBtnProd" layoutX="788.0" layoutY="573.0" mnemonicParsing="false" onAction="#cancelBtn" text="Cancel" />
       <Button layoutX="688.0" layoutY="529.0" mnemonicParsing="false" onAction="#removeButtonAction" prefHeight="27.0" prefWidth="154.0" text="Remove Associated Part" />
       <Button fx:id="prodSave" layoutX="688.0" layoutY="573.0" mnemonicParsing="false" onAction="#onSave" prefHeight="27.0" prefWidth="57.0" text="Save" />
-      <Button fx:id="addAssoc" layoutX="807.0" layoutY="277.0" mnemonicParsing="false" onAction="#addButtonAction" text="Add" />
+      <Button fx:id="addAssoc" layoutX="802.0" layoutY="277.0" mnemonicParsing="false" onAction="#addButtonAction" text="Add" />
     </children>
 </AnchorPane>

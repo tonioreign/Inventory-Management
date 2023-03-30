@@ -72,7 +72,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.inventory.inventorymanagement/com.inventory.inventorymanagement.InventoryManagement
+                                com.inventory.inventorymanagement/com.inventory.inventorymanagement.model.InventoryManagement
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

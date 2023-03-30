@@ -1,8 +1,8 @@
-package com.inventory.inventorymanagement;
+package com.inventory.inventorymanagement.controller;
 
-import com.inventory.inventorymanagement.Inventory;
-import com.inventory.inventorymanagement.Part;
-import com.inventory.inventorymanagement.Product;
+import com.inventory.inventorymanagement.model.Inventory;
+import com.inventory.inventorymanagement.model.Part;
+import com.inventory.inventorymanagement.model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -99,29 +98,31 @@ public class AddProductController implements Initializable {
     // switches back to main form
     @FXML
     public void onSave(ActionEvent e) throws IOException {
-        Integer newID = total += 1;
-        String name = addProdName.getText();
-        Double cost = Double.parseDouble(addProdCost.getText());
-        Integer inventory = Integer.parseInt(addProdInv.getText());
-        Integer min = Integer.parseInt(addProdMin.getText());
-        Integer max = Integer.parseInt(addProdMax.getText());
 
-        if(name.isEmpty()){
-            displayAlert(7);
-        }
-        else if(min > max)
-        {
-            displayAlert(3);
-        }else if(inventory > max || inventory < min){
-            displayAlert(4);
-        }
-        else{
-            Inventory.addProduct(new Product(newID, name, cost, inventory, min, max));
+        try {
+            Integer newID = total += 1;
+            String name = addProdName.getText();
+            Double cost = Double.parseDouble(addProdCost.getText());
+            Integer inventory = Integer.parseInt(addProdInv.getText());
+            Integer min = Integer.parseInt(addProdMin.getText());
+            Integer max = Integer.parseInt(addProdMax.getText());
+
+            if (name.isEmpty()) {
+                displayAlert(7);
+            } else if (min > max) {
+                displayAlert(3);
+            } else if (inventory > max || inventory < min) {
+                displayAlert(4);
+            } else {
+                Inventory.addProduct(new Product(newID, name, cost, inventory, min, max));
+            }
+        }catch(Exception i){
+            displayAlert(1);
         }
 
 
         // switches back to main menu
-        Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -208,7 +209,7 @@ public class AddProductController implements Initializable {
 
         // if OK return back to main screen
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

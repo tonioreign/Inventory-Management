@@ -1,10 +1,8 @@
-package com.inventory.inventorymanagement;
+package com.inventory.inventorymanagement.model;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+
 public class Inventory {
     // list for all parts
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
@@ -30,13 +28,17 @@ public class Inventory {
         return null;
     }
     // looks up product with product ID
+    /*ran into an error where display error wouldn't show up when dependent on the null factor (my searchProduct method)
+    * fixed it by adding the "return null" */
     public static Product lookupProduct(int productId){
-        int idx = 0;
-        for(Product product : allProducts){
-            if(product.getId() == productId) break;
-            idx++;
+        for(int i = 0; i < allProducts.size(); i++){
+            Product newProd = allProducts.get(i);
+
+            if(newProd.getId() == productId){
+                return newProd;
+            }
         }
-        return allProducts.get(idx);
+        return null;
     }
     // looks up part with part name
     public static ObservableList<Part> lookupPart(String partName){

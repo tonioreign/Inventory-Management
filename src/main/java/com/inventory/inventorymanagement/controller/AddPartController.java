@@ -1,6 +1,8 @@
-package com.inventory.inventorymanagement;
+package com.inventory.inventorymanagement.controller;
 
-import com.inventory.inventorymanagement.*;
+import com.inventory.inventorymanagement.model.InHouse;
+import com.inventory.inventorymanagement.model.Inventory;
+import com.inventory.inventorymanagement.model.Outsourced;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,40 +18,40 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ModifyPartController implements Initializable {
-    // set stage
+public class AddPartController implements Initializable {
+
+    // settings the stage
     private Stage stage;
-    // set scene
+    // setting the scene
     private Scene scene;
-    // set parent
     private Parent root;
-    // create total variable for product-list size
-    private Integer total = Inventory.getAllProducts().size();
-    // outsourced radiobutton
+    // getting total inventory for parts
+    private Integer total = Inventory.getAllParts().size();
+    // outsourced radio button
     @FXML
     private RadioButton addPartOutSourced;
-    // in-house radiobutton
+    // in-house radio button
     @FXML
     private RadioButton addPartInHouse;
-    // part ID text
+    // part ID text field
     @FXML
     private TextField addPartID;
-    // part name text
+    // part name text field
     @FXML
     private TextField addPartName;
-    // part inventory text
+    // part inventory level field
     @FXML
     private TextField addPartInv;
-    // part cost text
+    // part cost field
     @FXML
     private TextField addPartCost;
-    // part max text
+    // part max field
     @FXML
     private TextField addPartMax;
-    // part machine ID text
+    // part machine ID field
     @FXML
     private TextField addPartMachine;
-    // part min text
+    // part min field
     @FXML
     private TextField addPartMin;
     // part save button
@@ -58,25 +60,25 @@ public class ModifyPartController implements Initializable {
     // part cancel button
     @FXML
     private Button cancelBtnPart;
-    // machine ID label
+    // part machine ID label
     @FXML
     private Label machineIdField;
-    // created new "Part"
-    private Part selectedPart;
+
     // setting field level to Company when In-House is selected
     @FXML
-    public void onInHouse(ActionEvent e){
+    public void onInHouse(ActionEvent e) {
         machineIdField.setText("Machine ID");
         addPartOutSourced.setSelected(false);
     }
+
     // setting field level to Machine ID when OutSourced is selected
     @FXML
-    public void onOutsourced(ActionEvent e){
+    public void onOutsourced(ActionEvent e) {
         machineIdField.setText("Outsourced");
         addPartInHouse.setSelected(false);
     }
-    // takes the gathered input field from user - modifies current part if no errors occurred
-    // once the new part is created - old part is deleted from inventory
+
+    // takes the gathered input field from user - creates new part if no errors occurred
     // switches back to main form
     @FXML
     public void onSave(ActionEvent e) throws IOException {
@@ -99,7 +101,6 @@ public class ModifyPartController implements Initializable {
                     displayAlert(4);
                 } else {
                     Inventory.addPart(new Outsourced(newID, name, cost, inventory, min, max, companyName));
-                    Inventory.deletePart(selectedPart); // deleting old part from inventory
                 }
             } else if (addPartInHouse.isSelected()) {  // checks if in-house is selected - check errors then creates in-house part
                 try{
@@ -117,7 +118,6 @@ public class ModifyPartController implements Initializable {
                     displayAlert(2);
                 }else {
                     Inventory.addPart(new InHouse(newID, name, cost, inventory, min, max, machineID)); // adding part into inventory
-                    Inventory.deletePart(selectedPart); // deleting old part from inventory
                 }
 
             }
@@ -125,10 +125,10 @@ public class ModifyPartController implements Initializable {
             displayAlert(1);
         }
         /*seen a test that you should be able to save without machine ID field? displaying an error to show that it's needed
-         * according to the given class*/
+        * according to the given class*/
 
         // returns back to main menu
-        Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -142,8 +142,9 @@ public class ModifyPartController implements Initializable {
         alert.setContentText("Do you want cancel changes and return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
+        // confirming OK to return back to main menu (cancel)
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -151,69 +152,50 @@ public class ModifyPartController implements Initializable {
         }
     }
 
-        // alerts created to display specific errors
-        private void displayAlert(int alertType) {
+    // alerts created to display specific errors
+    private void displayAlert(int alertType) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
 
-            switch (alertType) {
-                case 1:
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error Adding Part");
-                    alert.setContentText("Form contains blank fields or invalid values.");
-                    alert.showAndWait();
-                    break;
-                case 2:
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Invalid value for Machine ID");
-                    alert.setContentText("Machine ID may only contain numbers.");
-                    alert.showAndWait();
-                    break;
-                case 3:
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Invalid value for Min");
-                    alert.setContentText("Min must be a number greater than 0 and less than Max.");
-                    alert.showAndWait();
-                    break;
-                case 4:
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Invalid value for Inventory");
-                    alert.setContentText("Inventory must be a number equal to or between Min and Max.");
-                    alert.showAndWait();
-                    break;
-                case 5:
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Name Empty");
-                    alert.setContentText("Name cannot be empty.");
-                    alert.showAndWait();
-                    break;
-            }
+        switch (alertType) {
+            case 1:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error Adding Part");
+                alert.setContentText("Form contains blank fields or invalid values.");
+                alert.showAndWait();
+                break;
+            case 2:
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid value for Machine ID");
+                alert.setContentText("Machine ID may only contain numbers and cannot be empty.");
+                alert.showAndWait();
+                break;
+            case 3:
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid value for Min");
+                alert.setContentText("Min must be a number greater than 0 and less than Max.");
+                alert.showAndWait();
+                break;
+            case 4:
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid value for Inventory");
+                alert.setContentText("Inventory must be a number equal to or between Min and Max.");
+                alert.showAndWait();
+                break;
+            case 5:
+                alert.setTitle("Error");
+                alert.setHeaderText("Name Empty");
+                alert.setContentText("Name cannot be empty.");
+                alert.showAndWait();
+                break;
         }
-
-    // passing modified part - getting part data to be modified
+    }
+    // initializes generated ID and sets text for populated ID for part form
+    // sets in-house to "selected" automatically on "AddParts" form
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        addPartID.setText(total.toString());
-
-        selectedPart = MenuController.getModifyPart();
-        // checking if it's an instance of InHouse
-        if (selectedPart instanceof InHouse) {
-            addPartInHouse.setSelected(true);
-            machineIdField.setText("Machine ID");
-            addPartMachine.setText(String.valueOf(((InHouse) selectedPart).getMachineId()));
-        }
-        // checking if it's an instance of Outsourced
-        if (selectedPart instanceof Outsourced){
-            addPartOutSourced.setSelected(true);
-            machineIdField.setText("Outsourced");
-            addPartMachine.setText(String.valueOf(((Outsourced) selectedPart).getCompanyName()));
-        }
-        // populating form data selected part data
-        addPartID.setText(String.valueOf(selectedPart.getId()));
-        addPartName.setText(String.valueOf(selectedPart.getName()));
-        addPartInv.setText(String.valueOf(selectedPart.getStock()));
-        addPartCost.setText(String.valueOf(selectedPart.getPrice()));
-        addPartMax.setText(String.valueOf(selectedPart.getMax()));
-        addPartMin.setText(String.valueOf(selectedPart.getMin()));
+        Integer newTotal = total + 1;
+        addPartID.setText(newTotal.toString());
+        addPartInHouse.setSelected(true);
     }
 }
