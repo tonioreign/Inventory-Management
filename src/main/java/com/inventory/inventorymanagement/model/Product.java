@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 /**
  * Models a product with associated parts
  *
- * @author Antonio
+ * @author Antonio Jenkins
  * */
 public class Product{
     /** a list for all associated parts to the product*/
@@ -40,51 +40,75 @@ public class Product{
         this.min = min;
         this.max = max;
     }
-    /** setter for id*/
+    /** setter for id
+     *
+     * @param id the product ID*/
     public void setId(int id){
         this.id = id;
     }
-    /** getter for id*/
+    /** getter for id
+     *
+     * @return the product ID*/
     public int getId(){
         return id;
     }
-    /** setter for name*/
+    /** setter for name
+     *
+     * @param name the products name*/
     public void setName(String name){
         this.name = name;
     }
-    /** getter for name*/
+    /** getter for name
+     *
+     * @return the products name*/
     public String getName(){
         return name;
     }
-    /** setter for price*/
+    /** setter for price
+     *
+     * @param price the products price*/
     public void setPrice(double price){
         this.price = price;
     }
-    /** getter for price*/
+    /** getter for price
+     *
+     * @return the products price*/
     public double getPrice(){
         return price;
     }
-    /** setter for stock*/
+    /** setter for stock
+     *
+     * @param stock gets the products inventory level*/
     public void setStock(int stock){
         this.stock = stock;
     }
-    /** getter for stock*/
+    /** getter for stock
+     *
+     * @return the products inventory level*/
     public int getStock(){
         return stock;
     }
-    /** setter for min*/
+    /** setter for min
+     *
+     * @param min the products min*/
     public void setMin(int min){
         this.min = min;
     }
-    /** getter for min*/
+    /** getter for min
+     *
+     * @return the products min*/
     public int getMin(){
         return min;
     }
-    /** setter for max*/
+    /** setter for max
+     *
+     * @param max the products max*/
     public void setMax(int max){
         this.max = max;
     }
-    /** getter for max*/
+    /** getter for max
+     *
+     * @return the products max*/
     public int getMax(){
         return max;
     }

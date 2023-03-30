@@ -6,22 +6,28 @@ import javafx.collections.ObservableList;
 /**
  * Inventory to hold parts and products
  *
- * @author Antonio
+ * @author Antonio Jenkins
  * */
 public class Inventory {
     /** list for all the parts created*/
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
     /** list for all the products created*/
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
-    /** adds part to all parts list*/
+    /** adds part to all parts list
+     *
+     * @param part the part to be added*/
     public static void addPart(Part part){
         allParts.add(part);
     }
-    /** adds product to all product list*/
+    /** adds product to all product list
+     *
+     * @param product the product to be added*/
     public static void addProduct(Product product){
         allProducts.add(product);
     }
-    /** looks up part with part ID*/
+    /** looks up part with part ID
+     *
+     * @param partId the part ID to be looked up*/
     public static Part lookupPart(int partId){
         for(int i = 0; i < allParts.size(); i++){
             Part newPart = allParts.get(i);

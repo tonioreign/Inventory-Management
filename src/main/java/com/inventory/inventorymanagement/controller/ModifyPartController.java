@@ -18,69 +18,83 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+/**
+ * Controller class that provides control logic for the modify part screen of the application.
+ *
+ * @author Antonio Jenkins
+ */
 
 public class ModifyPartController implements Initializable {
-    // set stage
+    /** set stage*/
     private Stage stage;
-    // set scene
+    /** set scene*/
     private Scene scene;
-    // set parent
+    /** et parent*/
     private Parent root;
-    // create total variable for product-list size
+    /** create total variable for product-list size*/
     private Integer total = Inventory.getAllProducts().size();
-    // outsourced radiobutton
+    /** outsourced radiobutton*/
     @FXML
     private RadioButton addPartOutSourced;
-    // in-house radiobutton
+    /** in-house radiobutton*/
     @FXML
     private RadioButton addPartInHouse;
-    // part ID text
+    /** part ID text*/
     @FXML
     private TextField addPartID;
-    // part name text
+    /** part name text*/
     @FXML
     private TextField addPartName;
-    // part inventory text
+    /** part inventory text*/
     @FXML
     private TextField addPartInv;
-    // part cost text
+    /** part cost text*/
     @FXML
     private TextField addPartCost;
-    // part max text
+    /** part max text*/
     @FXML
     private TextField addPartMax;
-    // part machine ID text
+    /** part machine ID text*/
     @FXML
     private TextField addPartMachine;
-    // part min text
+    /** part min text*/
     @FXML
     private TextField addPartMin;
-    // part save button
+    /** part save button*/
     @FXML
     private Button addPartSave;
-    // part cancel button
+    /** part cancel button*/
     @FXML
     private Button cancelBtnPart;
-    // machine ID label
+    /** machine ID label*/
     @FXML
     private Label machineIdField;
-    // created new "Part"
+    /** created new "Part"*/
     private Part selectedPart;
-    // setting field level to Company when In-House is selected
+    /** setting field level to Company when In-House is selected*/
     @FXML
     public void onInHouse(ActionEvent e){
         machineIdField.setText("Machine ID");
         addPartOutSourced.setSelected(false);
     }
-    // setting field level to Machine ID when OutSourced is selected
+    /** setting field level to Machine ID when OutSourced is selected*/
     @FXML
     public void onOutsourced(ActionEvent e){
         machineIdField.setText("Outsourced");
         addPartInHouse.setSelected(false);
     }
-    // takes the gathered input field from user - modifies current part if no errors occurred
-    // once the new part is created - old part is deleted from inventory
-    // switches back to main form
+    /** takes the gathered input field from user - modifies current part if no errors occurred
+     * once the new part is created - old part is deleted from inventory
+     * switches back to main form
+     *
+     * checks if outsourced or inhouse is selected - check errors then creates outsourced part
+     * creating new part
+     * deleting old part from inventory
+     * returns back to main menu
+     *
+     * seen a test that you should be able to save without machine ID field? displaying an error to show that it's needed
+     * according to the given class
+     * @throws IOException*/
     @FXML
     public void onSave(ActionEvent e) throws IOException {
         Integer newID = total += 1;
@@ -127,8 +141,6 @@ public class ModifyPartController implements Initializable {
         } catch (NumberFormatException i) {
             displayAlert(1);
         }
-        /*seen a test that you should be able to save without machine ID field? displaying an error to show that it's needed
-         * according to the given class*/
 
         // returns back to main menu
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
@@ -137,7 +149,8 @@ public class ModifyPartController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    // sets an alert confirming to cancel and returns back to main menu
+    /** sets an alert confirming to cancel and returns back to main menu
+     * @throws IOException*/
     @FXML
     void cancelBtn(ActionEvent e) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -154,7 +167,9 @@ public class ModifyPartController implements Initializable {
         }
     }
 
-        // alerts created to display specific errors
+    /** alerts created to display specific errors
+     *
+     * @param alertType the number associated with an alert*/
         private void displayAlert(int alertType) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -193,25 +208,31 @@ public class ModifyPartController implements Initializable {
             }
         }
 
-    // passing modified part - getting part data to be modified
+    /** passing modified part - getting part data to be modified
+     * checking if it's an instance of InHouse
+     * checking if it's an instance of Outsourced
+     * checking if it's an instance of Outsourced
+     *
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addPartID.setText(total.toString());
 
         selectedPart = MenuController.getModifyPart();
-        // checking if it's an instance of InHouse
+        /** checking if it's an instance of InHouse*/
         if (selectedPart instanceof InHouse) {
             addPartInHouse.setSelected(true);
             machineIdField.setText("Machine ID");
             addPartMachine.setText(String.valueOf(((InHouse) selectedPart).getMachineId()));
         }
-        // checking if it's an instance of Outsourced
+        /** checking if it's an instance of Outsourced*/
         if (selectedPart instanceof Outsourced){
             addPartOutSourced.setSelected(true);
             machineIdField.setText("Outsourced");
             addPartMachine.setText(String.valueOf(((Outsourced) selectedPart).getCompanyName()));
         }
-        // populating form data selected part data
+        /** checking if it's an instance of Outsourced*/
         addPartID.setText(String.valueOf(selectedPart.getId()));
         addPartName.setText(String.valueOf(selectedPart.getName()));
         addPartInv.setText(String.valueOf(selectedPart.getStock()));

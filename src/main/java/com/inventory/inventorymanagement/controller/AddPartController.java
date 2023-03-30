@@ -17,69 +17,81 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * Controller class that provides control logic for the add part screen of the application.
+ *
+ * "LOGICAL ERROR" - seen a test that you should be able to save without machine ID field? displaying an error to show that it's needed
+ * according to the given class
+ *
+ * @author Antonio Jenkins
+ */
 public class AddPartController implements Initializable {
 
-    // settings the stage
+    /** settings the stage*/
     private Stage stage;
-    // setting the scene
+    /** setting the scene*/
     private Scene scene;
     private Parent root;
-    // getting total inventory for parts
+    /** getting total inventory for parts*/
     private Integer total = Inventory.getAllParts().size();
-    // outsourced radio button
+    /** outsourced radio button*/
     @FXML
     private RadioButton addPartOutSourced;
-    // in-house radio button
+    /** in-house radio button*/
     @FXML
     private RadioButton addPartInHouse;
-    // part ID text field
+    /** part ID text field*/
     @FXML
     private TextField addPartID;
-    // part name text field
+    /** part name text field*/
     @FXML
     private TextField addPartName;
-    // part inventory level field
+    /** part inventory level field*/
     @FXML
     private TextField addPartInv;
-    // part cost field
+    /** part cost field*/
     @FXML
     private TextField addPartCost;
-    // part max field
+    /** part max field*/
     @FXML
     private TextField addPartMax;
-    // part machine ID field
+    /** part machine ID field*/
     @FXML
     private TextField addPartMachine;
-    // part min field
+    /** part min field*/
     @FXML
     private TextField addPartMin;
-    // part save button
+    /** part save button*/
     @FXML
     private Button addPartSave;
-    // part cancel button
+    /** part cancel button*/
     @FXML
     private Button cancelBtnPart;
-    // part machine ID label
+    /** part machine ID label*/
     @FXML
     private Label machineIdField;
 
-    // setting field level to Company when In-House is selected
+    /** setting field label to Company when In-House is selected*/
     @FXML
     public void onInHouse(ActionEvent e) {
         machineIdField.setText("Machine ID");
         addPartOutSourced.setSelected(false);
     }
 
-    // setting field level to Machine ID when OutSourced is selected
+    /** setting field label to Machine ID when OutSourced is selected*/
     @FXML
     public void onOutsourced(ActionEvent e) {
         machineIdField.setText("Outsourced");
         addPartInHouse.setSelected(false);
     }
 
-    // takes the gathered input field from user - creates new part if no errors occurred
-    // switches back to main form
+    /** takes the gathered input field from user - creates new part if no errors occurred
+     * switches back to main form
+     *
+     * checks if outsourced is selected - check errors then creates outsourced part
+     * checks if in-house is selected - check errors then creates in-house part
+     * adding part into inventory
+     * @throws IOException*/
     @FXML
     public void onSave(ActionEvent e) throws IOException {
         Integer newID = total += 1;
@@ -124,17 +136,18 @@ public class AddPartController implements Initializable {
         } catch (NumberFormatException i) {
             displayAlert(1);
         }
-        /*seen a test that you should be able to save without machine ID field? displaying an error to show that it's needed
-        * according to the given class*/
 
-        // returns back to main menu
+        /** returns back to main menu*/
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-    // sets an alert confirming to cancel and returns back to main menu
+    /** sets an alert confirming to cancel and returns back to main menu
+     * confirming OK to return back to main menu (cancel)
+     * @throws IOException
+     * */
     @FXML
     void cancelBtn(ActionEvent e) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -142,7 +155,7 @@ public class AddPartController implements Initializable {
         alert.setContentText("Do you want cancel changes and return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        // confirming OK to return back to main menu (cancel)
+        /** confirming OK to return back to main menu (cancel)*/
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -152,7 +165,9 @@ public class AddPartController implements Initializable {
         }
     }
 
-    // alerts created to display specific errors
+    /** alerts created to display specific errors
+     *
+     * @param alertType the number associated with an alert*/
     private void displayAlert(int alertType) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -190,8 +205,9 @@ public class AddPartController implements Initializable {
                 break;
         }
     }
-    // initializes generated ID and sets text for populated ID for part form
-    // sets in-house to "selected" automatically on "AddParts" form
+    /** initializes generated ID and sets text for populated ID for part form sets in-house to "selected" automatically on "AddParts" form
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Integer newTotal = total + 1;

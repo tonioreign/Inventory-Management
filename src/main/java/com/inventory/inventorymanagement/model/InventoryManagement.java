@@ -7,8 +7,32 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+/**
+ * The Inventory Management program implements an application for managing
+ * an inventory of parts and products consisting of parts.
+ *
+ * "RUNTIME ERROR" Can't figure out how to refactor the code - everytime I try multiple ways that would work with a non maven build
+ * I get runtime errors "Location required" won't let me move files into new created folders to make it more organized
+ *
+ * FIXXXX - deleted "com" folder and moved fxml files into a specific folder then rerouted all controllers and models
+ * to there respective fxml files.
+ *“
+ *“FUTURE ENHANCEMENT” - Be able to create a new part inside the product menu and add it as an associated part,
+ * while keeping parts that are in stock, also show part that go out of stock.
+ *
+ * "FUTURE ENHANCEMENT" - Add a database system with parts from other inventory manage systems - be able to transfer needed parts
+ * for a specific product
+ *
+ * @author Antonio Jenkins
+ */
 
 public class InventoryManagement extends Application {
+    /**
+     * The start method creates the FXML stage and loads the initial scene.
+     *
+     * @param stage
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         try{
@@ -22,7 +46,13 @@ public class InventoryManagement extends Application {
             e.printStackTrace();
         }
     }
-
+    /**
+     * The main method is the entry point of the application.
+     *
+     * The main method creates sample data and launches the application.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         /** CREATING PARTS*/
         Part brakes = new Outsourced(1, "brakes", 9.99, 1, 1, 10, "Reign");
@@ -45,14 +75,5 @@ public class InventoryManagement extends Application {
 
 
         launch();
-
-
-        /**
-        * "RUNTIME ERROR" Can't figure out how to refactor the code - everytime I try multiple ways that would work with a non maven build
-        * I get runtime errors "Location required" won't let me move files into new created folders to make it more organized
-        *
-        * FIXXXX - deleted "com" folder and moved fxml files into a specific folder then rerouted all controllers and models
-        * to there respective fxml files.
-        * */
     }
 }

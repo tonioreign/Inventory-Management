@@ -20,82 +20,89 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+/**
+ * Controller class that provides control logic for the add product screen of the application.
+ *
+ * @author Antonio Jenkins
+ */
 
 public class AddProductController implements Initializable {
-    // setting stage
+    /** setting stage*/
     private Stage stage;
-    // setting scene
+    /** setting scene*/
     private Scene scene;
-    // parent root variable
+    /** parent root variable*/
     private Parent root;
-    // product list size
+    /** product list size*/
     private Integer total = Inventory.getAllProducts().size();
-    // associated part list
+    /** associated part list*/
     private ObservableList<Part> assocParts = FXCollections.observableArrayList();
-    // product id text
+    /** product id text*/
     @FXML
     private TextField addProdID;
-    // product name text
+    /** product name text*/
     @FXML
     private TextField addProdName;
-    // product inventory text
+    /** product inventory text*/
     @FXML
     private TextField addProdInv;
-    // product cost text
+    /** product cost text*/
     @FXML
     private TextField addProdCost;
-    // product max text
+    /** product max text*/
     @FXML
     private TextField addProdMax;
-    // product machine ID text
+    /** product machine ID text*/
     @FXML
     private TextField addProdMachineID;
-    // product min text
+    /** product min text*/
     @FXML
     private TextField addProdMin;
-    // part ID col
+    /** part ID col*/
     @FXML
     private TableColumn<Part, Integer> partIDCol;
-    // part name col
+    /** part name col*/
     @FXML
     private TableColumn<Part, String> partNameCol;
-    // part inventory col
+    /** part inventory col*/
     @FXML
     private TableColumn<Part, Integer> partInvLvlCol;
-    // part cost col
+    /** part cost col*/
     @FXML
     private TableColumn<Part, Integer> partCostCol;
-    // assoc cost col
+    /** assoc cost col*/
     @FXML
     private TableColumn<Product, Integer> assocIDCost;
-    // assoc name col
+    /** assoc name col*/
     @FXML
     private TableColumn<Product, String> assocPartName;
-    // assoc inventory col
+    /** assoc inventory col*/
     @FXML
     private TableColumn<Product, Integer> assocPartInv;
-    // assoc cost col
+    /** assoc cost col*/
     @FXML
     private TableColumn<Product, Integer> assocPartCost;
-    // assoc table
+    /** assoc table*/
     @FXML
     private TableView<Part> assocTable;
-    // part table
+    /** part table*/
     @FXML
     private TableView<Part> partTable;
-    // part search text field
+    /** part search text field*/
     @FXML
     private TextField prodSearch;
 
     @FXML TextField partSearch;
-    // cancel button
+    /** cancel button*/
     @FXML
     private Button cancelBtnProd;
-    // save button
+    /** save button*/
     private Button prodSave;
 
-    // takes the gathered input field from user - creates new product if no errors occurred
-    // switches back to main form
+    /** takes the gathered input field from user - creates new product if no errors occurred
+    * switches back to main form
+     *
+     * @throws IOException*/
     @FXML
     public void onSave(ActionEvent e) throws IOException {
 
@@ -121,7 +128,7 @@ public class AddProductController implements Initializable {
         }
 
 
-        // switches back to main menu
+        /** switches back to main menu*/
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -129,19 +136,25 @@ public class AddProductController implements Initializable {
         stage.show();
     }
 
-    // uses methods to look up specific parts according to the input ID(part) or String name
+    /** uses methods to look up specific parts according to the input ID(part) or String name
+     * getting part name from search fields
+     *
+     * running into an error - display alert shows to often when populated or entering an invalid part
+     * partial fix - checking if null then add to list - new error. not populating all parts
+     * WIERD FIX - assigned idPartList to the results of the string lookup and checked for null variables
+     * */
     @FXML
     public void onSearch(ActionEvent e){
         ObservableList<Part> idPartList = FXCollections.observableArrayList();
         String partStr = prodSearch.getText(); // getting part name from search fields
 
         try{
-            // searching for the string name first
+            /** searching for the string name first*/
             idPartList = Inventory.lookupPart(partStr);
             partTable.setItems(idPartList);
             Integer partId = Integer.parseInt(partStr);
             Part part = Inventory.lookupPart(partId);
-            // try catch block to catch any errors if the string cannot be parsed into an integer
+            /** try catch block to catch any errors if the string cannot be parsed into an integer*/
             if(part != null) {    // partial fix - checking if null then add to list - new error. not populating all parts
                 idPartList.add(part);
                 partTable.setItems(idPartList);
@@ -158,13 +171,13 @@ public class AddProductController implements Initializable {
         {
             partTable.setItems(Inventory.getAllParts());
         }
-        /* running into an error - display alert shows to often when populated or entering an invalid part
+        /** running into an error - display alert shows to often when populated or entering an invalid part
          * WIERD FIX - assigned idPartList to the results of the string lookup and checked for null variables
          * */
     }
 
-    // adds associated parts to a product
-    /* still need to figure out how to add selected part to a newly created product */
+    /** adds associated parts to a product
+    * still need to figure out how to add selected part to a newly created product */
     @FXML
     void addButtonAction(ActionEvent event) {
 
@@ -178,7 +191,8 @@ public class AddProductController implements Initializable {
         }
     }
 
-    // removes the associated part from the current product
+    /** removes the associated part from the current product
+     * throws an alert if the selected part is null*/
     @FXML
     void removeButtonAction(ActionEvent event) {
 
@@ -199,7 +213,10 @@ public class AddProductController implements Initializable {
             }
         }
     }
-    // sets an alert confirming to cancel and returns back to main menu
+    /** sets an alert confirming to cancel and returns back to main menu
+     * if OK return back to main screen
+     *
+     * @throws IOException*/
     @FXML
     void cancelBtn(ActionEvent e) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -217,7 +234,9 @@ public class AddProductController implements Initializable {
         }
 
     }
-    // alerts created to display specific errors
+    /** alerts created to display specific errors
+     *
+     * @param alertType the number associated with an alert*/
     private void displayAlert(int alertType) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -260,19 +279,24 @@ public class AddProductController implements Initializable {
                 break;
         }
     }
-    // initializes auto generated ID for product
+    /** initializes auto generated ID for product
+     * setting the parts columns with their respective attributes.
+     * setting the products columns with their respective attributes.
+     *
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Integer newTotal = total + 1;
         addProdID.setText(newTotal.toString());
 
-        // setting the parts columns with their respective attributes.
+        /** setting the parts columns with their respective attributes.*/
         partIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
         partInvLvlCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
         partCostCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("price"));
         partTable.setItems((Inventory.getAllParts()));
-        // setting the products columns with their respective attributes.
+        /** setting the products columns with their respective attributes.*/
         assocIDCost.setCellValueFactory(new PropertyValueFactory<Product, Integer>("id"));
         assocPartName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         assocPartInv.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));

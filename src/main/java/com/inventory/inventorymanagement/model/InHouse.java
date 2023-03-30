@@ -3,7 +3,7 @@ package com.inventory.inventorymanagement.model;
 /**
  * InHouse for part
  *
- * @author Antonio
+ * @author Antonio Jenkins
  * */
 public class InHouse extends Part {
     /** machine ID for part */
@@ -23,11 +23,15 @@ public class InHouse extends Part {
         super(id, name, price, stock, min, max);
         this.machineId = machineId;
     }
-    /** the setter for machine ID*/
+    /** the setter for machine ID
+     *
+     * @param machineId machine ID for part*/
     public void setMachineId(int machineId){
         this.machineId = machineId;
     }
-    /** the getter for machine ID*/
+    /** the getter for machine ID
+     *
+     * @return the machine ID for part*/
     public int getMachineId(){
         return machineId;
     }

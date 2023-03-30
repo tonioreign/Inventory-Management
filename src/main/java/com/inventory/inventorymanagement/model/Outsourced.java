@@ -3,7 +3,7 @@ package com.inventory.inventorymanagement.model;
 /**
  * Outsourced for part
  *
- * @author Antonio
+ * @author Antonio Jenkins
  * */
 public class Outsourced extends Part{
     /** the company name for the part*/
@@ -22,12 +22,16 @@ public class Outsourced extends Part{
         super(id, name, price, stock, min, max);
         this.companyName = companyName;
     }
-    /** the setter for company name*/
+    /** the setter for company name
+     *
+     * @param companyName the company name for part*/
     public void setCompanyName(String companyName){
 
         this.companyName = companyName;
     }
-    /** the getter for company name*/
+    /** the getter for company name
+     *
+     * @return the companies name for part*/
     public String getCompanyName(){
         return companyName;
     }
