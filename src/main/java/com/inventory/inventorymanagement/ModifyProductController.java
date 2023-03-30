@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 public class ModifyProductController implements Initializable {
     // setting stage
     private Stage stage;
-    // setting scene
+    // setting scence
     private Scene scene;
     // parent root variable
     private Parent root;
@@ -82,17 +82,13 @@ public class ModifyProductController implements Initializable {
     // part table
     @FXML
     private TableView<Part> partTable;
-    // part search text field
-    @FXML
-    private TextField prodSearch;
     // cancel button
-    @FXML
-    private Button cancelBtnProd;
-    // search field text
-    @FXML
     private TextField partSearch;
     // created new product
     private Product selectedProduct;
+
+    @FXML
+    private TextField prodSearch;
 
     // passing selected product to be modified
     @Override
@@ -184,16 +180,32 @@ public class ModifyProductController implements Initializable {
         ObservableList<Part> idPartList = FXCollections.observableArrayList();
         String partStr = prodSearch.getText(); // getting part name from search fields
 
-        // searching for the string name first
-        partTable.setItems(Inventory.lookupPart(partStr));
-        // try catch block to catch any errors if the string cannot be parsed into an integer
         try{
-            Integer partId = Integer.parseInt(partStr);
-            idPartList.add(Inventory.lookupPart(partId));
+            // searching for the string name first
+            idPartList = Inventory.lookupPart(partStr);
             partTable.setItems(idPartList);
+            Integer partId = Integer.parseInt(partStr);
+            Part part = Inventory.lookupPart(partId);
+            // try catch block to catch any errors if the string cannot be parsed into an integer
+            if(part != null) {    // partial fix - checking if null then add to list - new error. not populating all parts
+                idPartList.add(part);
+                partTable.setItems(idPartList);
+            }
         }catch(NumberFormatException i){
             // ignore
         }
+
+        if(idPartList.size() == 0){
+            displayAlert(2);
+        }
+
+        if(partStr.isEmpty() || partStr.isBlank())
+        {
+            partTable.setItems(Inventory.getAllParts());
+        }
+        /* running into an error - display alert shows to often when populated or entering an invalid part
+         * WIERD FIX - assigned idPartList to the results of the string lookup and checked for null variables
+         * */
     }
 
 

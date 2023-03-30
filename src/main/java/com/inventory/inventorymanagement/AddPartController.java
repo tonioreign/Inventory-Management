@@ -69,56 +69,66 @@ public class AddPartController implements Initializable {
 
     // setting field level to Company when In-House is selected
     @FXML
-    public void onInHouse(ActionEvent e){
-        machineIdField.setText("Company");
+    public void onInHouse(ActionEvent e) {
+        machineIdField.setText("Machine ID");
         addPartOutSourced.setSelected(false);
     }
+
     // setting field level to Machine ID when OutSourced is selected
     @FXML
-    public void onOutsourced(ActionEvent e){
-        machineIdField.setText("Machine ID");
+    public void onOutsourced(ActionEvent e) {
+        machineIdField.setText("Outsourced");
         addPartInHouse.setSelected(false);
     }
+
     // takes the gathered input field from user - creates new part if no errors occurred
     // switches back to main form
     @FXML
     public void onSave(ActionEvent e) throws IOException {
         Integer newID = total += 1;
-        String name = addPartName.getText();
-        Double cost = Double.parseDouble(addPartCost.getText());
-        Integer inventory = Integer.parseInt(addPartInv.getText());
-        Integer min = Integer.parseInt(addPartMin.getText());
-        Integer max = Integer.parseInt(addPartMax.getText());
-        Integer machineID = Integer.parseInt(addPartMachine.getText());
-        String companyName = addPartMachine.getText().toString();
+        try {
+            String name = addPartName.getText();
+            Double cost = Double.parseDouble(addPartCost.getText());
+            Integer inventory = Integer.parseInt(addPartInv.getText());
+            Integer min = Integer.parseInt(addPartMin.getText());
+            Integer max = Integer.parseInt(addPartMax.getText());
+            Integer machineID = null;
+            String companyName = addPartMachine.getText().toString();
 
-        if(addPartOutSourced.isSelected()){ // checks if outsourced is selected - check errors then creates outsourced part
-            if(name.isEmpty()){
-                displayAlert(5);
+            if (addPartOutSourced.isSelected()) { // checks if outsourced is selected - check errors then creates outsourced part
+                if (name.isEmpty()) {
+                    displayAlert(5);
+                } else if (min > max) {
+                    displayAlert(3);
+                } else if (inventory > max || inventory < min) {
+                    displayAlert(4);
+                } else {
+                    Inventory.addPart(new Outsourced(newID, name, cost, inventory, min, max, companyName));
+                }
+            } else if (addPartInHouse.isSelected()) {  // checks if in-house is selected - check errors then creates in-house part
+                try{
+                    machineID = Integer.parseInt(addPartMachine.getText());
+                }catch(Exception n){
+                    displayAlert(2);
+                }
+                if (name.isEmpty()) {
+                    displayAlert(5);
+                } else if (min > max) {
+                    displayAlert(3);
+                } else if (inventory > max || inventory < min) {
+                    displayAlert(4);
+                } else if(addPartMachine.getText().isEmpty()){
+                    displayAlert(2);
+                }else {
+                    Inventory.addPart(new InHouse(newID, name, cost, inventory, min, max, machineID)); // adding part into inventory
+                }
+
             }
-            else if(min > max)
-            {
-                displayAlert(3);
-            }else if(inventory > max || inventory < min){
-                displayAlert(4);
-            }
-            else{
-                Inventory.addPart(new Outsourced(newID, name, cost, inventory, min, max, companyName));
-            }
-        }else if(addPartInHouse.isSelected()){  // checks if in-house is selected - check errors then creates in-house part
-            if(name.isEmpty()){
-                displayAlert(5);
-            }
-            else if(min > max)
-            {
-                displayAlert(3);
-            }else if(inventory > max || inventory < min){
-                displayAlert(4);
-            }
-            else{
-                Inventory.addPart(new InHouse(newID, name, cost, inventory, min, max, machineID)); // adding part into inventory
-            }
+        } catch (NumberFormatException i) {
+            displayAlert(1);
         }
+        /*seen a test that you should be able to save without machine ID field? displaying an error to show that it's needed
+        * according to the given class*/
 
         // returns back to main menu
         Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
@@ -160,7 +170,7 @@ public class AddPartController implements Initializable {
             case 2:
                 alert.setTitle("Error");
                 alert.setHeaderText("Invalid value for Machine ID");
-                alert.setContentText("Machine ID may only contain numbers.");
+                alert.setContentText("Machine ID may only contain numbers and cannot be empty.");
                 alert.showAndWait();
                 break;
             case 3:
@@ -189,6 +199,6 @@ public class AddPartController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Integer newTotal = total + 1;
         addPartID.setText(newTotal.toString());
-        addPartOutSourced.setSelected(true);
+        addPartInHouse.setSelected(true);
     }
 }
