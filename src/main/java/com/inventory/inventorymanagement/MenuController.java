@@ -9,81 +9,81 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
-
+    // part table view
     @FXML
     private TableView<Part> partTable;
-
+    // part table ID
     @FXML
     private TableColumn<Part, Integer> partIDCol;
-
+    // part table name
     @FXML
     private TableColumn<Part, String> partNameCol;
-
+    // part table inventory level
     @FXML
     private TableColumn<Part, Integer> partInvLvlCol;
-
+    // part table cost
     @FXML
     private TableColumn<Part, Integer> partCostCol;
-
+    // add part button
     @FXML
     private Button addPart;
-
+    // mod part button
     @FXML
     private Button modPart;
-
+    // delete part button
     @FXML
     private Button deletePart;
-
+    // product table view
     @FXML
     private TableView<Product> productTable;
-
+    // product table ID
     @FXML
     private TableColumn<Product, Integer> productIDCol;
-
+    // product table name
     @FXML
     private TableColumn<Product, String> productNameCol;
-
+    // product table inventory level
     @FXML
     private TableColumn<Product, Integer> productInvLvlCol;
-
+    // product table cost
     @FXML
     private TableColumn<Product, Integer> productCostCol;
-
+    // add product button
     @FXML
     private Button addProduct;
-
+    // mod product button
     @FXML
     private Button modProduct;
-
+    // delete product button
     @FXML
     private Button deleteProduct;
-
+    // search part text field
     @FXML
     private TextField searchPart;
-
+    // search product text field
     @FXML
     private TextField searchProduct;
-
+    // exit button
     @FXML
     private Button exit;
-
+    // part to be modified (being passed)
     private static Part modifyPart;
+    // product to be modified (being passed)
     private static Product modifyProduct;
 
-
+    // stage to be set
     private Stage stage;
+    // scene to be set
     private Scene scene;
     private Parent root;
 
@@ -108,6 +108,8 @@ public class MenuController implements Initializable {
         productInvLvlCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
         productCostCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("price"));
     }
+
+    // method loads up the part form - reused this code a lot to transition forms - could make a main method for it in the future
     public void onAddPart(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -116,6 +118,7 @@ public class MenuController implements Initializable {
         stage.show();
     }
 
+    // opens the modify form
     public void onModPart(ActionEvent e)throws IOException{
         modifyPart = partTable.getSelectionModel().getSelectedItem();
 
@@ -125,22 +128,36 @@ public class MenuController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    // deletes selected part from parts tables
     public void onDeletePart(ActionEvent e){
-        try {
-            Inventory.deletePart(partTable.getSelectionModel().getSelectedItem()); // deletes the selected part
-        }catch(Exception ex){
-            ex.printStackTrace();
+        Part selectedPart = partTable.getSelectionModel().getSelectedItem();
+
+        if (selectedPart == null) {
+            displayAlert(4);
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Alert");
+            alert.setContentText("Do you want to delete the selected part?");
+            Optional<ButtonType> result = alert.showAndWait();
+            // if OK delete part
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                    Inventory.deletePart(selectedPart);
+                    partTable.setItems(Inventory.getAllParts());
+            }
         }
     }
-
+    // returning modified part (being passed)
     @FXML
     public static Part getModifyPart() {
         return modifyPart;
     }
-
+    // returning modified product (being passed)
     public static Product getModifyProduct() {
         return modifyProduct;
     }
+    // opens add product form
     public void onAddProduct(ActionEvent e)throws IOException{
 
         Parent root = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
@@ -149,7 +166,7 @@ public class MenuController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    // opens modify product form
     public void onModProduct(ActionEvent e)throws IOException{
 
         modifyProduct = productTable.getSelectionModel().getSelectedItem();
@@ -160,30 +177,59 @@ public class MenuController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    // deletes selected product from products tables - no parts associated
     public void onDeleteProduct(ActionEvent e){
-        try {
-            Inventory.deleteProduct(productTable.getSelectionModel().getSelectedItem()); // deletes the selected product
-        }catch(Exception ex){
-            ex.printStackTrace();
+        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct == null) {
+            displayAlert(4);
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Alert");
+            alert.setContentText("Do you want to delete the selected product?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                ObservableList<Part> assocParts = selectedProduct.getAllAssociatedParts();
+                // checking associated parts are removed
+                if (assocParts.size() >= 1) {
+                    displayAlert(5);
+                } else {
+                    Inventory.deleteProduct(selectedProduct); // delete product from inventory
+                    productTable.setItems(Inventory.getAllProducts());
+                }
+            }
         }
     }
 
-    public void onSearch(ActionEvent e){
+    // search function above "Part Table"
+    @FXML
+    public void onSearchPart(ActionEvent e){
         ObservableList<Part> idPartList = FXCollections.observableArrayList();
-        ObservableList<Product> idProdList = FXCollections.observableArrayList();
-
         String partStr = searchPart.getText(); // getting part name from search fields
-        String prodStr = searchProduct.getText();
-
         // searching for the string name first
         partTable.setItems(Inventory.lookupPart(partStr));
-        productTable.setItems(Inventory.lookupProduct(prodStr));
         // try catch block to catch any errors if the string cannot be parsed into an integer
         try{
             Integer partId = Integer.parseInt(partStr);
             idPartList.add(Inventory.lookupPart(partId));
             partTable.setItems(idPartList);
 
+        }catch(NumberFormatException i){
+            // ignore
+        }
+    }
+    // search function above "Product Table"
+    @FXML
+    public void onSearchProd(ActionEvent e){
+        ObservableList<Product> idProdList = FXCollections.observableArrayList();
+        String prodStr = searchProduct.getText();
+        // searching for the string name first
+        productTable.setItems(Inventory.lookupProduct(prodStr));
+        // try catch block to catch any errors if the string cannot be parsed into an integer
+        try{
             Integer prodId = Integer.parseInt(prodStr);
             idProdList.add(Inventory.lookupProduct(prodId));
             productTable.setItems(idProdList);
@@ -192,7 +238,7 @@ public class MenuController implements Initializable {
         }
     }
 
-
+    // cancel function - return back to menu
     public void cancelBtn(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -201,7 +247,44 @@ public class MenuController implements Initializable {
         stage.show();
     }
 
+    // alerts created to display specific errors
+    public void displayAlert(int alertType) {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alertError = new Alert(Alert.AlertType.ERROR);
+
+        switch (alertType) {
+            case 1:
+                alert.setTitle("Information");
+                alert.setHeaderText("Part not found");
+                alert.showAndWait();
+                break;
+            case 2:
+                alert.setTitle("Information");
+                alert.setHeaderText("Product not found");
+                alert.showAndWait();
+                break;
+            case 3:
+                alertError.setTitle("Error");
+                alertError.setHeaderText("Part not selected");
+                alertError.showAndWait();
+                break;
+            case 4:
+                alertError.setTitle("Error");
+                alertError.setHeaderText("Product not selected");
+                alertError.showAndWait();
+                break;
+            case 5:
+                alertError.setTitle("Error");
+                alertError.setHeaderText("Parts Associated");
+                alertError.setContentText("All parts must be removed from product before deletion.");
+                alertError.showAndWait();
+                break;
+        }
+    }
+
+    // closes the menu
     public void exitBtn(ActionEvent e){
-        stage.close();
+        System.exit(0);
     }
 }

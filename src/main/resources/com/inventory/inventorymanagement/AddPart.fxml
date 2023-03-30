@@ -42,7 +42,7 @@
       </Label>
       <RadioButton fx:id="addPartOutSourced" layoutX="269.0" layoutY="42.0" mnemonicParsing="false" onAction="#onOutsourced" text="Outsourced" />
       <RadioButton fx:id="addPartInHouse" layoutX="152.0" layoutY="42.0" mnemonicParsing="false" onAction="#onInHouse" text="In-House" />
-      <TextField fx:id="addPartID" editable="false" layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="132.0" text="0" />
+      <TextField fx:id="addPartID" editable="false" layoutX="143.0" layoutY="119.0" prefHeight="27.0" prefWidth="132.0" />
       <TextField fx:id="addPartName" layoutX="143.0" layoutY="152.0" prefHeight="27.0" prefWidth="132.0" />
       <TextField fx:id="addPartInv" layoutX="143.0" layoutY="186.0" prefHeight="27.0" prefWidth="132.0" />
       <TextField fx:id="addPartCost" layoutX="143.0" layoutY="220.0" prefHeight="27.0" prefWidth="132.0" />

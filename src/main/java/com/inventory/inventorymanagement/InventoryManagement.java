@@ -14,6 +14,7 @@ public class InventoryManagement extends Application {
         try{
             Parent menu = FXMLLoader.load(getClass().getResource("menu.fxml"));
             Scene scene = new Scene(menu);
+            stage.setTitle("Inventory Management System");
             stage.setScene(scene);
             stage.show();
 
